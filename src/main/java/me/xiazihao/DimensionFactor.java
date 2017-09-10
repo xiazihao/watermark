@@ -1,7 +1,7 @@
 package me.xiazihao;
 
 public class DimensionFactor extends TwoDimension {
-    public DimensionFactor(int x, int y) {
+    public DimensionFactor(double x, double y) {
         super(x, y);
     }
 }

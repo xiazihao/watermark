@@ -24,4 +24,12 @@ abstract class TwoDimension {
     public void setY(double y) {
         this.y = y;
     }
+
+    @Override
+    public String toString() {
+        return "TwoDimension{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

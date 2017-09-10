@@ -50,13 +50,12 @@ public class WaterMark {
 
         double x = this.getWaterMarkImage().getIconWidth() * this.waterMarkScale.getX();
         double y = this.getWaterMarkImage().getIconHeight() * this.waterMarkScale.getY();
-//        System.out.println("watermark: " + (int)x + "  " + (int)y);
         Image scaledImage = this.getWaterMarkImage().getImage().getScaledInstance((int) x, (int) y, Image.SCALE_SMOOTH);
-        //TODO 疑问
+        //TODO 如果不使用这个语句，那么缩放后的水印无法生成
         ImageIcon imageIcon = new ImageIcon(scaledImage);
-//        System.out.println("scaled :" + imageIcon.getIconWidth() + "  " + imageIcon.getIconHeight());
         BufferedImage outputImage = new BufferedImage(sourceImage.getWidth(), sourceImage.getHeight(), sourceImage.getType());
         Coordinate startCoordinate = waterMarkLocation.getStartCoordinate(new Size(sourceImage.getWidth(), sourceImage.getHeight()), new Size(scaledImage.getWidth(null), scaledImage.getHeight(null)));
+        System.out.println(startCoordinate);
         BufferedImage bufferedImage = this.makeWaterMark(scaledImage, sourceImage, outputImage, startCoordinate);
         FileOutputStream fileOutputStream = new FileOutputStream(targetFile);
         ImageIO.write(bufferedImage, "JPG", fileOutputStream);
@@ -75,7 +74,7 @@ public class WaterMark {
             }
             String fileName = sourceFile.getName();
             try {
-                this.make(sourceFile, new File(targetFileDirectory, fileName), AbstractWaterMarkLocation.CENTER_TOP);
+                this.make(sourceFile, new File(targetFileDirectory, fileName), AbstractWaterMarkLocation.CENTER_BUTTON);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -94,14 +93,13 @@ public class WaterMark {
     }
 
     public boolean make(String sourcePath, String targetPath) throws IOException {
-        return make(new File(sourcePath), new File(targetPath), AbstractWaterMarkLocation.CENTER_TOP);
+        return make(new File(sourcePath), new File(targetPath), AbstractWaterMarkLocation.LEFT_CENTER);
     }
 
     private final ImageIcon waterMarkImage;
 
-    private TwoDimension waterMarkScale = new DimensionFactor(1, 1);
+    private TwoDimension waterMarkScale = new DimensionFactor(0.7, 0.7);
 
-    private int rotateDegree = 0;
 
 
     private WaterMark(ImageIcon waterMarkImage) {
